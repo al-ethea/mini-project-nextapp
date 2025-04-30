@@ -1,14 +1,15 @@
-'use client';
-
-import { useState } from 'react';
-import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { authValidationSchema } from '../features/auth/schemas/authValidationSchema';
-import { toast } from 'react-toastify';
-import { AxiosResponse } from 'axios';
-import instance from '@/utils/axiosInstance';
-import authStore from '@/zustand/store';
-import { useRouter } from 'next/navigation';
+"use client";
+// ganti button jdi Link
+import { useState } from "react";
+import { BiSolidShow, BiSolidHide } from "react-icons/bi";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { authValidationSchema } from "../features/auth/schemas/authValidationSchema";
+import { toast } from "react-toastify";
+import { AxiosResponse } from "axios";
+import instance from "@/utils/axiosInstance";
+import authStore from "@/zustand/store";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface IHandleAuthLoginProps {
   email: string;
@@ -26,11 +27,11 @@ export default function LoginPage() {
   }: IHandleAuthLoginProps) => {
     try {
       const response: AxiosResponse<any, any> = await instance.post(
-        '/users/login',
+        "/users/login",
         {
           email,
           password,
-        },
+        }
       );
       toast.success(response.data.message);
 
@@ -40,9 +41,9 @@ export default function LoginPage() {
         _role: response.data.data.role,
       });
 
-      router.push('/dashboard');
+      router.push("/dashboard");
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
@@ -51,7 +52,7 @@ export default function LoginPage() {
       className="h-screen overflow-hidden bg-cover bg-center relative"
       style={{
         backgroundImage:
-          'url(https://media.licdn.com/dms/image/v2/C4E1BAQGlTBGCd2gshQ/company-background_10000/company-background_10000/0/1623800046639/live_nation_cover?e=2147483647&v=beta&t=rhGJyRnc__IG7kMVQ9DsVxTNi1p343jB14jR3-rsi_s)',
+          "url(https://media.licdn.com/dms/image/v2/C4E1BAQGlTBGCd2gshQ/company-background_10000/company-background_10000/0/1623800046639/live_nation_cover?e=2147483647&v=beta&t=rhGJyRnc__IG7kMVQ9DsVxTNi1p343jB14jR3-rsi_s)",
       }}
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0" />
@@ -61,7 +62,7 @@ export default function LoginPage() {
             LIVE NATION
           </h1>
           <Formik
-            initialValues={{ email: '', password: '' }}
+            initialValues={{ email: "", password: "" }}
             validationSchema={authValidationSchema}
             onSubmit={(values) => {
               handleAuthLogin({
@@ -85,7 +86,7 @@ export default function LoginPage() {
                 />
                 <ErrorMessage
                   name="email"
-                  component={'div'}
+                  component={"div"}
                   className="text-red-500 text-sm pt-2"
                 />
               </div>
@@ -99,7 +100,7 @@ export default function LoginPage() {
                     id="password"
                     name="password"
                     autoComplete="current-password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     className="w-full px-4 py-3 border border-white bg-transparent text-white placeholder-white rounded-sm focus:outline-none pr-10"
                   />
@@ -113,7 +114,7 @@ export default function LoginPage() {
                 </div>
                 <ErrorMessage
                   name="password"
-                  component={'div'}
+                  component={"div"}
                   className="text-red-500 text-sm pt-2"
                 />
               </div>
@@ -140,13 +141,10 @@ export default function LoginPage() {
           <div className="border-t border-white my-4" />
 
           <div className="text-white text-sm">
-            Don't have an account?{' '}
-            <span
-              className="font-semibold hover:underline cursor-pointer"
-              onClick={() => router.push('/register')}
-            >
+            Don't have an account?{" "}
+            <Link href="/register" className="font-semibold hover:underline">
               Register
-            </span>{' '}
+            </Link>{" "}
             <span className="inline-block">&rarr;</span>
           </div>
         </div>
