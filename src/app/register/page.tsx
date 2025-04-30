@@ -1,13 +1,15 @@
-'use client';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useState } from 'react';
-import { BiSolidShow, BiSolidHide } from 'react-icons/bi';
-import instance from '@/utils/axiosInstance';
-import authStore from '@/zustand/store';
-import { toast } from 'react-toastify';
-import { registerValidationSchema } from '../features/register/schemas/registerValidationSchema';
-import { useRouter } from 'next/navigation';
-import { AxiosResponse } from 'axios';
+"use client";
+// ganti button jdi Link
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useState } from "react";
+import { BiSolidShow, BiSolidHide } from "react-icons/bi";
+import instance from "@/utils/axiosInstance";
+import authStore from "@/zustand/store";
+import { toast } from "react-toastify";
+import { registerValidationSchema } from "../features/register/schemas/registerValidationSchema";
+import { useRouter } from "next/navigation";
+import { AxiosResponse } from "axios";
+import Link from "next/link";
 
 interface IHandleRegisterUser {
   firstName: string;
@@ -20,7 +22,7 @@ interface IHandleRegisterUser {
 export default function registerPage() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const token = authStore((state) => state.token);
+  const token = authStore((state: any) => state.token);
 
   const handleAuthRegister = async ({
     firstName,
@@ -31,7 +33,7 @@ export default function registerPage() {
   }: IHandleRegisterUser) => {
     try {
       const response: AxiosResponse<any, any> = await instance.post(
-        '/users/register',
+        "/users/register",
         {
           firstName,
           lastName,
@@ -43,11 +45,11 @@ export default function registerPage() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       toast.success(response.data.message);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
   return (
@@ -56,7 +58,7 @@ export default function registerPage() {
         className="min-h-screen overflow-hidden bg-cover bg-center relative"
         style={{
           backgroundImage:
-            'url(https://media.licdn.com/dms/image/v2/C4E1BAQGlTBGCd2gshQ/company-background_10000/company-background_10000/0/1623800046639/live_nation_cover?e=2147483647&v=beta&t=rhGJyRnc__IG7kMVQ9DsVxTNi1p343jB14jR3-rsi_s)',
+            "url(https://media.licdn.com/dms/image/v2/C4E1BAQGlTBGCd2gshQ/company-background_10000/company-background_10000/0/1623800046639/live_nation_cover?e=2147483647&v=beta&t=rhGJyRnc__IG7kMVQ9DsVxTNi1p343jB14jR3-rsi_s)",
         }}
       >
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0" />
@@ -67,11 +69,11 @@ export default function registerPage() {
             </h1>
             <Formik
               initialValues={{
-                firstName: '',
-                lastName: '',
-                postcode: '',
-                email: '',
-                password: '',
+                firstName: "",
+                lastName: "",
+                postcode: "",
+                email: "",
+                password: "",
               }}
               validationSchema={registerValidationSchema}
               onSubmit={(values) => {
@@ -98,7 +100,7 @@ export default function registerPage() {
                   />
                   <ErrorMessage
                     name="firstName"
-                    component={'div'}
+                    component={"div"}
                     className="text-red-500 text-sm pt-2"
                   />
                 </div>
@@ -116,7 +118,7 @@ export default function registerPage() {
                   />
                   <ErrorMessage
                     name="lastName"
-                    component={'div'}
+                    component={"div"}
                     className="text-red-500 text-sm pt-2"
                   />
                 </div>
@@ -134,7 +136,7 @@ export default function registerPage() {
                   />
                   <ErrorMessage
                     name="postcode"
-                    component={'div'}
+                    component={"div"}
                     className="text-red-500 text-sm pt-2"
                   />
                 </div>
@@ -153,7 +155,7 @@ export default function registerPage() {
                   />
                   <ErrorMessage
                     name="email"
-                    component={'div'}
+                    component={"div"}
                     className="text-red-500 text-sm pt-2"
                   />
                 </div>
@@ -167,7 +169,7 @@ export default function registerPage() {
                       id="password"
                       name="password"
                       autoComplete="current-password"
-                      type={showPassword ? 'text' : 'password'}
+                      type={showPassword ? "text" : "password"}
                       placeholder="Password"
                       className="w-full px-4 py-3 border border-white bg-transparent text-white placeholder-white rounded-sm focus:outline-none pr-10"
                     />
@@ -181,7 +183,7 @@ export default function registerPage() {
                   </div>
                   <ErrorMessage
                     name="password"
-                    component={'div'}
+                    component={"div"}
                     className="text-red-500 text-sm pt-2"
                   />
                 </div>
@@ -199,13 +201,13 @@ export default function registerPage() {
             <div className="border-t border-white my-4" />
 
             <div className="text-white text-sm">
-              Already Registered?{' '}
-              <span
+              Already Registered?{" "}
+              <Link
+                href="/login"
                 className="font-semibold hover:underline cursor-pointer"
-                onClick={() => router.push('/login')}
               >
                 Log in
-              </span>{' '}
+              </Link>{" "}
               <span className="inline-block">&rarr;</span>
             </div>
           </div>
