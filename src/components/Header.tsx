@@ -45,7 +45,7 @@ export default function Header() {
             </button>
             <div className="w-px h-6 bg-white/60" />
             <Link
-              href="#"
+              href="/login"
               className="text-white hover:text-gray-300 text-md font-semibold flex items-center gap-1"
             >
               <User className="w-6 h-6" />
@@ -58,7 +58,7 @@ export default function Header() {
       {/* Sticky Navigation Bar */}
       <div className="sticky top-0 z-20 bg-red-700 px-6 py-4">
         <nav className="flex space-x-6 text-md font-semibold text-white">
-          <Link href="#" className="flex items-center gap-1 hover:underline">
+          <Link href="/allConcertsAndEvents" className="flex items-center gap-1 hover:underline">
             All Concerts & Events
             <ExternalLink className="w-3 h-3 inline" />
           </Link>
