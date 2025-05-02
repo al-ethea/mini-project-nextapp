@@ -27,7 +27,7 @@ export default function LoginPage() {
   }: IHandleAuthLoginProps) => {
     try {
       const response: AxiosResponse<any, any> = await instance.post(
-        "/users/login",
+        "/auth/login",
         {
           email,
           password,

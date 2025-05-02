@@ -15,11 +15,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
   const handleSessionLogin = async () => {
     try {
-      const response = await instance.get("/users/session-login", {
+      const response = await instance.get("/auth/session-login", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(response);
+
       setAuth({
         _token: response.data.data.token,
         _email: response.data.data.email,
