@@ -33,7 +33,7 @@ export default function registerPage() {
   }: IHandleRegisterUser) => {
     try {
       const response: AxiosResponse<any, any> = await instance.post(
-        "/users/register",
+        "/auth/register",
         {
           firstName,
           lastName,
