@@ -1,4 +1,3 @@
-"use client";
 
 import { useState } from "react";
 import { BiSolidShow, BiSolidHide } from "react-icons/bi";
@@ -9,6 +8,7 @@ import { AxiosResponse } from "axios";
 import instance from "@/utils/axiosInstance";
 import authStore from "@/zustand/store";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface IHandleAuthLoginProps {
   email: string;
@@ -26,7 +26,7 @@ export default function LoginPage() {
   }: IHandleAuthLoginProps) => {
     try {
       const response: AxiosResponse<any, any> = await instance.post(
-        "/users/login",
+        "/auth/login",
         {
           email,
           password,
@@ -141,12 +141,9 @@ export default function LoginPage() {
 
           <div className="text-white text-sm">
             Don't have an account?{" "}
-            <span
-              className="font-semibold hover:underline cursor-pointer"
-              onClick={() => router.push("/register")}
-            >
+            <Link href="/register" className="font-semibold hover:underline">
               Register
-            </span>{" "}
+            </Link>{" "}
             <span className="inline-block">&rarr;</span>
           </div>
         </div>

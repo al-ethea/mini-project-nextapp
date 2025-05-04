@@ -9,6 +9,8 @@ import { registerValidationSchema } from "../features/register/schemas/registerV
 import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
 
+import Link from "next/link";
+
 interface IHandleRegisterUser {
   firstName: string;
   lastName: string;
@@ -20,7 +22,7 @@ interface IHandleRegisterUser {
 export default function registerPage() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const token = authStore((state) => state.token);
+  const token = authStore((state: any) => state.token);
 
   const handleAuthRegister = async ({
     firstName,
@@ -31,7 +33,7 @@ export default function registerPage() {
   }: IHandleRegisterUser) => {
     try {
       const response: AxiosResponse<any, any> = await instance.post(
-        "/users/register",
+        "/auth/register",
         {
           firstName,
           lastName,
@@ -200,12 +202,12 @@ export default function registerPage() {
 
             <div className="text-white text-sm">
               Already Registered?{" "}
-              <span
+              <Link
+                href="/login"
                 className="font-semibold hover:underline cursor-pointer"
-                onClick={() => router.push("/login")}
               >
                 Log in
-              </span>{" "}
+              </Link>{" "}
               <span className="inline-block">&rarr;</span>
             </div>
           </div>

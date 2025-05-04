@@ -1,11 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Search, X, User, ExternalLink } from 'lucide-react';
-import Link from 'next/link';
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { Search, X, User, ExternalLink } from "lucide-react";
+import Link from "next/link";
+
+// bikin pengkondisian kalo udh login, udh msk ke /dashboard, login/register button ganti jdi dropdown
 
 export default function Header() {
   const [showSearch, setShowSearch] = useState(false);
+  const pathName = usePathname();
+
+  if (pathName === "/login" || pathName === "/register") return null;
 
   return (
     <header className="w-full">
@@ -25,7 +31,7 @@ export default function Header() {
                 placeholder="Search by Artist, Venue or Event"
                 className="bg-black text-white outline-none flex-grow px-2"
               />
-              
+
               <button
                 onClick={() => setShowSearch(false)}
                 className="text-white"
