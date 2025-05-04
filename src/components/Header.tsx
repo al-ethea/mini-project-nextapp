@@ -64,7 +64,7 @@ export default function Header() {
       {/* Sticky Navigation Bar */}
       <div className="sticky top-0 z-20 bg-red-700 px-6 py-4">
         <nav className="flex space-x-6 text-md font-semibold text-white">
-          <Link href="#" className="flex items-center gap-1 hover:underline">
+          <Link href="/allConcertsAndEvents" className="flex items-center gap-1 hover:underline">
             All Concerts & Events
             <ExternalLink className="w-3 h-3 inline" />
           </Link>
