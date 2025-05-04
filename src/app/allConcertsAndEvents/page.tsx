@@ -36,6 +36,7 @@ export default function EventPage() {
     try {
       const response = await instance.get<ApiResponse>("/events/all-events");
       if (response.data && response.data.data) {
+        console.log(response)
         setEvents(response.data.data);
       } else {
         throw new Error("Event you are looking for is not found");
@@ -199,19 +200,9 @@ export default function EventPage() {
 
               {/* Image */}
               <div className="w-32 h-32 flex-shrink-0">
-                {/* <Image
+                <Image
                   src={event.bannerUrl?.toString()}
                   alt={event.description?.toString()}
-                  className="w-full h-full object-cover"
-                  width={300}
-                  height={300}
-                /> */}
-                <Image
-                  src={
-                    event.bannerUrl ||
-                    "https://via.placeholder.com/300x300?text=No+Image"
-                  }
-                  alt={event.description || "Event Image"}
                   className="w-full h-full object-cover"
                   width={300}
                   height={300}
