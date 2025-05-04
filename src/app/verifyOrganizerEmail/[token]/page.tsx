@@ -18,7 +18,7 @@ export default function verifyEmailPage({
   const handleVerifyEmail = async () => {
     try {
       const response = await instance.post(
-        "/organizer/verify-organizer",
+        "/organizer/verify-email",
         {},
         {
           headers: {
