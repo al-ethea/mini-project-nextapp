@@ -3,6 +3,7 @@
 import instance from "@/utils/axiosInstance";
 import next from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
@@ -23,6 +24,15 @@ interface ApiResponse {
   data: IHandleEventPage[];
 }
 
+interface ApiResponse {
+  data: IHandleEventPage[];
+  meta: {
+    total: number;
+    page: number;
+    totalPages: number;
+  };
+}
+
 export default function EventPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [events, setEvents] = useState<IHandleEventPage[]>([]);
@@ -31,24 +41,27 @@ export default function EventPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handleEventLists = async () => {
     try {
-      const response = await instance.get<ApiResponse>("/events/all-events");
+      const response = await instance.get<ApiResponse>(
+        `/events/all-events?page=${currentPage}&limit=8`
+      );
       if (response.data && response.data.data) {
-        console.log(response)
         setEvents(response.data.data);
+        setTotalPages(response.data.meta.totalPages);
       } else {
         throw new Error("Event you are looking for is not found");
       }
     } catch (error: any) {
-      next(error);
+      console.error(error);
     }
   };
 
   useEffect(() => {
     handleEventLists();
-  }, []);
+  }, [currentPage]);
 
   // Filter berdasarkan date range
   const filteredEvents = events
@@ -170,17 +183,17 @@ export default function EventPage() {
 
       {/* Event List */}
       <div>
-        <p className="text-gray-600 font-semibold my-6">
+        <div className="text-gray-600 font-semibold my-6">
           {message && (
-            <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
+            <p className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
               {message}
-            </div>
+            </p>
           )}
-          {filteredEvents.length} Result
-        </p>
+          {events.length} Result
+        </div>
 
         <div className="flex flex-col gap-4">
-          {filteredEvents.map((event) => (
+          {events.map((event) => (
             <div
               key={event.id}
               className="bg-white shadow-md flex overflow-hidden"
@@ -223,9 +236,11 @@ export default function EventPage() {
               {/* Button */}
               <div className="p-4 flex items-center">
                 {event.availableSeats > 0 ? (
-                  <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded">
-                    Find Tickets
-                  </button>
+                  <Link href={`/events/${event.id}`}>
+                    <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded">
+                      Find Tickets
+                    </button>
+                  </Link>
                 ) : (
                   <button
                     className="bg-gray-400 text-white font-semibold px-6 py-2 rounded cursor-not-allowed"
@@ -246,51 +261,27 @@ export default function EventPage() {
             disabled={currentPage === 1}
             onClick={() => setCurrentPage(1)}
           >
-            First
+            Prev
           </button>
-          <button
-            className={`w-8 h-8 rounded-full ${
-              currentPage === 1 ? "bg-red-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setCurrentPage(1)}
-          >
-            1
-          </button>
-          <button
-            className={`w-8 h-8 rounded-full ${
-              currentPage === 2 ? "bg-red-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setCurrentPage(2)}
-            disabled={filteredEvents.length < 10}
-          >
-            2
-          </button>
-          <button
-            className={`w-8 h-8 rounded-full ${
-              currentPage === 3 ? "bg-red-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setCurrentPage(3)}
-            disabled={filteredEvents.length < 20}
-          >
-            3
-          </button>
-          <button
-            className={`w-8 h-8 rounded-full ${
-              currentPage === 4 ? "bg-red-600 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setCurrentPage(4)}
-            disabled={filteredEvents.length < 30}
-          >
-            4
-          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              className={`w-8 h-8 rounded-full ${
+                currentPage === page ? "bg-red-600 text-white" : "bg-gray-200"
+              }`}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </button>
+          ))}
+
           <button
             className="text-gray-400"
-            disabled={filteredEvents.length < 40}
-            onClick={() =>
-              setCurrentPage(Math.ceil(filteredEvents.length / 10))
-            }
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(totalPages)}
           >
-            Last
+            Next
           </button>
         </div>
       </div>
