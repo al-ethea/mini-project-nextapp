@@ -4,15 +4,28 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Search, X, User, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import authStore from "@/zustand/store";
+import { useRouter } from "next/navigation";
 
 // bikin pengkondisian kalo udh login, udh msk ke /dashboard, login/register button ganti jdi dropdown
 
 export default function Header() {
   const [showSearch, setShowSearch] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+
   const pathName = usePathname();
+  const router = useRouter();
+
+  const token = authStore((state: any) => state.token);
+  const email = authStore((state: any) => state.email);
+  const setAuth = authStore((state: any) => state.setAuth);
 
   if (pathName === "/login" || pathName === "/register") return null;
 
+  const handleLogout = () => {
+    setAuth({ _token: null, email: null, role: null });
+    router.push("/");
+  };
   return (
     <header className="w-full">
       {/* Top Header - Logo & Search */}
@@ -50,13 +63,51 @@ export default function Header() {
               <Search className="w-5 h-5" />
             </button>
             <div className="w-px h-6 bg-white/60" />
-            <Link
-              href="/login"
-              className="text-white hover:text-gray-300 text-md font-semibold flex items-center gap-1"
-            >
-              <User className="w-6 h-6" />
-              Login/Register
-            </Link>
+
+            {token ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="text-white hover:text-gray-300 text-md font-semibold flex items-center gap-1"
+                >
+                  <User className="w-6 h-6" />
+                  {email ?? "Account"}
+                </button>
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-md py-2 z-50">
+                    <Link href="/profile">
+                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Profile
+                      </div>
+                    </Link>
+                    <Link href="/referral">
+                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Referral Code
+                      </div>
+                    </Link>
+                    <Link href="/pointsHistory">
+                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Points
+                      </div>
+                    </Link>
+                    <div
+                      onClick={handleLogout}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    >
+                      Logout
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="text-white hover:text-gray-300 text-md font-semibold flex items-center gap-1"
+              >
+                <User className="w-6 h-6" />
+                Login/Register
+              </Link>
+            )}
           </div>
         )}
       </div>
@@ -64,7 +115,10 @@ export default function Header() {
       {/* Sticky Navigation Bar */}
       <div className="sticky top-0 z-20 bg-red-700 px-6 py-4">
         <nav className="flex space-x-6 text-md font-semibold text-white">
-          <Link href="/allConcertsAndEvents" className="flex items-center gap-1 hover:underline">
+          <Link
+            href="/allConcertsAndEvents"
+            className="flex items-center gap-1 hover:underline"
+          >
             All Concerts & Events
             <ExternalLink className="w-3 h-3 inline" />
           </Link>
