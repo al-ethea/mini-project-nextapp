@@ -11,7 +11,7 @@ export default function ReferralPage() {
   const handleUseReferralCode = async (referralCode: string) => {
     try {
       const response = await instance.post(
-        "referral/apply-referral",
+        "referral/apply",
         { referralCode },
         {
           headers: {
