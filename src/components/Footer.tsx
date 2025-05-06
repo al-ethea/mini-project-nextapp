@@ -8,21 +8,15 @@ export default function Footer() {
   if (pathName === "/login" || pathName === "/register") return null;
 
   return (
-    <footer className="bg-white text-black pt-4 pb-4 px-8">
-      {" "}
-      {/* Increased top padding */}
+    <footer className="bg-white text-black pt-6 pb-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {/* Live Nation Links */}
           <div className="flex flex-col items-center md:items-start pt-4 mt-4">
-            {" "}
-            {/* Added padding and margin top */}
-            <h3 className="text-xl font-semibold mb-6 w-full text-center md:text-left">
+            <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 w-full text-center md:text-left">
               Live Nation
             </h3>
-            <ul className="space-y-1 w-full text-center md:text-left">
-              {" "}
-              {/* Increased space between items */}
+            <ul className="space-y-1 w-full text-center md:text-left text-sm sm:text-base">
               {[
                 "About Us",
                 "FAQ",
@@ -35,8 +29,6 @@ export default function Footer() {
                   key={item}
                   className="hover:text-red-500 cursor-pointer py-1"
                 >
-                  {" "}
-                  {/* Added vertical padding */}
                   {item}
                 </li>
               ))}
@@ -45,14 +37,10 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="flex flex-col items-center pt-4 mt-4">
-            {" "}
-            {/* Added padding and margin top */}
-            <h3 className="text-xl font-semibold mb-6 w-full text-center">
+            <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 w-full text-center">
               Quick Links
             </h3>
-            <ul className="space-y-1 w-full text-center">
-              {" "}
-              {/* Increased space between items */}
+            <ul className="space-y-1 w-full text-center text-sm sm:text-base">
               {[
                 "All Concerts & Events",
                 "Festivals",
@@ -66,8 +54,6 @@ export default function Footer() {
                   key={item}
                   className="hover:text-red-500 cursor-pointer py-1"
                 >
-                  {" "}
-                  {/* Added vertical padding */}
                   {item}
                 </li>
               ))}
@@ -76,36 +62,33 @@ export default function Footer() {
 
           {/* Follow Section */}
           <div className="flex flex-col items-center pt-4 mt-4">
-            {" "}
-            {/* Added padding and margin top */}
             <div className="w-full text-center">
-              <h3 className="text-xl font-semibold mb-6">
+              <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">
                 Live Nation International
               </h3>
-              <p className="hover:text-red-500 cursor-pointer py-1 mb-8">
+              <p className="hover:text-red-500 cursor-pointer py-1 mb-6 sm:mb-8">
                 Asia
-              </p>{" "}
-              {/* Added padding and margin */}
-              <h3 className="text-xl font-semibold mb-6">Follow Live Nation</h3>
-              <div className="flex justify-center space-x-6">
-                {" "}
-                {/* Increased space between icons */}
-                <FaFacebook className="text-2xl hover:text-red-500 cursor-pointer" />
-                <FaTwitter className="text-2xl hover:text-red-500 cursor-pointer" />
-                <FaInstagram className="text-2xl hover:text-red-500 cursor-pointer" />
-                <FaYoutube className="text-2xl hover:text-red-500 cursor-pointer" />
+              </p>
+              <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">
+                Follow Live Nation
+              </h3>
+              <div className="flex justify-center space-x-4 sm:space-x-6">
+                <FaFacebook className="text-xl sm:text-2xl hover:text-red-500 cursor-pointer" />
+                <FaTwitter className="text-xl sm:text-2xl hover:text-red-500 cursor-pointer" />
+                <FaInstagram className="text-xl sm:text-2xl hover:text-red-500 cursor-pointer" />
+                <FaYoutube className="text-xl sm:text-2xl hover:text-red-500 cursor-pointer" />
               </div>
             </div>
           </div>
         </div>
+
         {/* Divider */}
-        <div className="border-t border-gray-700 my-12"></div>{" "}
-        {/* Increased margin */}
+        <div className="border-t border-gray-700 my-8 sm:my-12"></div>
+
         {/* Copyright */}
-        <p className="text-center text-gray-400 mt-8">
-          {" "}
-          {/* Added margin top */}© {new Date().getFullYear()} Live Nation
-          Entertainment. All rights reserved.
+        <p className="text-center text-gray-400 text-sm sm:text-base mt-6">
+          © {new Date().getFullYear()} Live Nation Entertainment. All rights
+          reserved.
         </p>
       </div>
     </footer>

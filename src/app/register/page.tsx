@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { registerValidationSchema } from "../features/register/schemas/registerValidationSchema";
 import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
-
 import Link from "next/link";
 
 interface IHandleRegisterUser {
