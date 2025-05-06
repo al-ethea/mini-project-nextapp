@@ -4,7 +4,6 @@ import instance from "@/utils/axiosInstance";
 import { useEffect, useState } from "react";
 
 export default function ProfilePage() {
-  //   const setAuth = authStore((state: any) => state.setAuth);
   const token = authStore((state: any) => state.token);
   const [userProfile, setUserProfile] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -28,8 +27,6 @@ export default function ProfilePage() {
   useEffect(() => {
     if (token) getUserProfile();
   }, [token]);
-
-  //   if (loading) return <h1 className="text-center font-bold">Loading...</h1>;
 
   return (
     <main>
@@ -60,6 +57,12 @@ export default function ProfilePage() {
               <span className="font-semibold">Total Points:</span>{" "}
               {userProfile.totalPoints}
             </div>
+            {userProfile.referredTo?.length > 0 && (
+              <div>
+                <span className="font-semibold">Your Discount Code:</span>{" "}
+                {userProfile.referredTo[0].discountCode}
+              </div>
+            )}
           </div>
         )}
       </div>
