@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Search, X, User, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import authStore from "@/zustand/store";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [showSearch, setShowSearch] = useState(false);
@@ -131,7 +132,11 @@ export default function Header() {
       </div>
 
       {/* Sticky Navigation Bar - Attendee Features */}
-      <div className="sticky top-0 z-20 bg-red-700 px-6 py-4">
+<!--       <div className="sticky top-0 z-20 bg-red-700 px-6 py-4"> -->
+
+      {/* Sticky Navigation Bar */}
+      <div className="sticky top-0 z-20 bg-red-700 px-6 py-4 sm:px-6 py-3 sm:py-4 overflow-x-auto sm:space-x-6 text-sm sm:text-md font-semibold text-white">
+
         <nav className="flex space-x-6 text-md font-semibold text-white">
           <Link
             href="/allConcertsAndEvents"
@@ -157,6 +162,7 @@ export default function Header() {
               </Link>
             </>
           )}
+
         </nav>
       </div>
     </header>
