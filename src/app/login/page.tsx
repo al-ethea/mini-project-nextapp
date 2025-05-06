@@ -58,9 +58,11 @@ export default function LoginPage() {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0" />
       <div className="relative z-10 flex items-center justify-center min-h-screen p-20 sm:px-8">
         <div className="text-center max-w-md w-full sm:p-16">
-          <h1 className="text-white text-3xl font-bold mb-8 tracking-wide">
-            LIVE NATION
-          </h1>
+          <Link href="/">
+            <h1 className="text-white text-3xl font-bold mb-8 tracking-wide">
+              LIVE NATION
+            </h1>
+          </Link>
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={authValidationSchema}
