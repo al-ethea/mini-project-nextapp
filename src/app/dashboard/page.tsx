@@ -1,5 +1,5 @@
-'use client';
-import useDisplayDashboard from '../features/dashboard/hooks/useDisplayDashboard';
+"use client";
+import useDisplayDashboard from "../features/dashboard/hooks/useDisplayDashboard";
 import Image from "next/image";
 import EventCardList from "@/components/EventCard";
 import NowWatching from "@/components/NowWatching";
@@ -7,11 +7,11 @@ import LastCallForTickets from "@/components/LastCall";
 import CallToSignUp from "@/components/CallToSignUp";
 import EventRating from "@/components/EventRating";
 import SearchByArtistOrEvent from "@/components/SearchByArtistOrEvents";
-import Carousel from '@/components/Carousel';
-import EventSearchForm from '@/components/HandleSubmitFilter';
+import Carousel from "@/components/Carousel";
+import EventSearchForm from "@/components/HandleSubmitFilter";
 
 export default function DashboardPage() {
-  const { email, role, token } = useDisplayDashboard();
+  // const { email, role, token } = useDisplayDashboard();
 
   return (
     <main>
