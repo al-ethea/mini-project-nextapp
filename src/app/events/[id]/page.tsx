@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
 
 interface EventDetail {
+  data: EventDetail;
   id: number;
   name: string;
   bannerUrl: string;
@@ -25,7 +26,7 @@ export default async function EventDetailPage({
 }) {
   const { id } = await params;
   try {
-    const response = await instance.get(`/events/${id}`);
+    const response = await instance.get<EventDetail>(`/events/${id}`);
     const event: EventDetail = response.data.data;
 
     if (!event) return notFound();
@@ -81,9 +82,12 @@ export default async function EventDetailPage({
             </p>
           </div>
 
-          <button className="mt-6 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+          <Link
+            href={`/events/${event.id}/register`}
+            className="mt-6 inline-block bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
             Book Now
-          </button>
+          </Link>
         </div>
       </div>
     );
