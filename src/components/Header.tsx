@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Search, X, User, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import authStore from "@/zustand/store";
@@ -16,6 +16,7 @@ export default function Header() {
 
   const token = authStore((state: any) => state.token);
   const email = authStore((state: any) => state.email);
+  const role = authStore((state: any) => state.role);
   const setAuth = authStore((state: any) => state.setAuth);
 
   if (pathName === "/login" || pathName === "/register") return null;
@@ -24,6 +25,7 @@ export default function Header() {
     setAuth({ _token: null, email: null, role: null });
     router.push("/");
   };
+
   return (
     <header className="w-full">
       {/* Top Header - Logo & Search */}
@@ -45,7 +47,6 @@ export default function Header() {
                 placeholder="Search by Artist, Venue or Event"
                 className="bg-black text-white outline-none flex-grow px-2 text-sm sm:text-base"
               />
-
               <button
                 onClick={() => setShowSearch(false)}
                 className="text-white"
@@ -75,22 +76,39 @@ export default function Header() {
                   {email ?? "Account"}
                 </button>
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-md py-2 z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-md py-2 z-50">
                     <Link href="/profile">
                       <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Profile
                       </div>
                     </Link>
-                    <Link href="/referral">
-                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        Referral Code
-                      </div>
-                    </Link>
-                    <Link href="/pointsHistory">
-                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        Points
-                      </div>
-                    </Link>
+
+                    {role !== "ORGANIZER" ? (
+                      <Link href="/registerOrganizer">
+                        <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                          Become Organizer
+                        </div>
+                      </Link>
+                    ) : (
+                      <>
+                        <Link href="/createEvent">
+                          <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            Create Event
+                          </div>
+                        </Link>
+                        <Link href="/approveReceipts">
+                          <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            Approve Receipts
+                          </div>
+                        </Link>
+                        <Link href="/eventStats">
+                          <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            Event Stats
+                          </div>
+                        </Link>
+                      </>
+                    )}
+
                     <div
                       onClick={handleLogout}
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -113,8 +131,12 @@ export default function Header() {
         )}
       </div>
 
+      {/* Sticky Navigation Bar - Attendee Features */}
+<!--       <div className="sticky top-0 z-20 bg-red-700 px-6 py-4"> -->
+
       {/* Sticky Navigation Bar */}
       <div className="sticky top-0 z-20 bg-red-700 px-6 py-4 sm:px-6 py-3 sm:py-4 overflow-x-auto sm:space-x-6 text-sm sm:text-md font-semibold text-white">
+
         <nav className="flex space-x-6 text-md font-semibold text-white">
           <Link
             href="/allConcertsAndEvents"
@@ -123,19 +145,24 @@ export default function Header() {
             All Concerts & Events
             <ExternalLink className="w-3 h-3 inline" />
           </Link>
-          <Link href="#" className="hover:underline whitespace-nowrap">
-            Festivals
-          </Link>
-          <Link href="#" className="hover:underline whitespace-nowrap">
-            VIP Experiences
-          </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-1 hover:underline whitespace-nowrap"
-          >
-            First To Know
-            <ExternalLink className="w-3 h-3 inline" />
-          </Link>
+
+          {token && (
+            <>
+              <Link href="/myOrderedEvents" className="hover:underline">
+                My Events
+              </Link>
+              <Link href="/uploadReceipt" className="hover:underline">
+                Upload Receipt
+              </Link>
+              <Link href="/pointsHistory" className="hover:underline">
+                Points
+              </Link>
+              <Link href="/referral" className="hover:underline">
+                Referral
+              </Link>
+            </>
+          )}
+
         </nav>
       </div>
     </header>
