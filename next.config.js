@@ -41,6 +41,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "img.youtube.com",
       },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org", // ✅ Added this line
+      },
+      {
+        protocol: "https",
+        hostname: "www.statesman.com",
+      },
     ],
     // Additional options (if needed):
     minimumCacheTTL: 60, // Cache for 60 seconds

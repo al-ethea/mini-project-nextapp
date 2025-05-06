@@ -1,11 +1,14 @@
 "use client";
 
 import instance from "@/utils/axiosInstance";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import authStore from "@/zustand/store";
 
 export default function CreateEventPage() {
+  const token = authStore((state: any) => state.token);
+
   const [formData, setFormData] = useState({
     name: "",
     bannerUrl: "",
@@ -28,6 +31,7 @@ export default function CreateEventPage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isRange, setIsRange] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [artists, setArtists] = useState([]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -87,7 +91,11 @@ export default function CreateEventPage() {
 
       console.log("Payload yang dikirim:", payload);
 
-      const res = await instance.post("http://localhost:5005/api/events/create-events", payload);
+      const res = await instance.post("events/create-events", payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (res.status === 201) {
         setSuccess(true);
@@ -115,6 +123,19 @@ export default function CreateEventPage() {
       alert("Failed to create event.");
     }
   };
+
+  const getAllArtists = async () => {
+    try {
+      const response = await instance.get("/artists", {});
+      console.log(response);
+      setArtists(response?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getAllArtists();
+  }, []);
   return (
     <div className="min-h-screen bg-gray-100 text-black px-4 md:px-8 pt-4 pb-8">
       <div className="bg-white p-6 shadow-md rounded-lg">
@@ -345,9 +366,9 @@ export default function CreateEventPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
               <label htmlFor="artistId" className="font-medium">
-                Artist ID
+                Artist
               </label>
-              <input
+              {/* <input
                 type="number"
                 name="artistId"
                 value={formData.artistId}
@@ -356,10 +377,24 @@ export default function CreateEventPage() {
                 className="input input-bordered col-span-2 w-full bg-white text-black placeholder:text-gray-400 border-black"
                 required
                 min="1"
-              />
+              /> */}
+              <select
+                name="artistId"
+                value={formData.artistId}
+                onChange={handleChange}
+                className="select select-bordered col-span-2 w-full bg-white text-black placeholder:text-gray-400 border-black"
+                required
+              >
+                <option value="">Select an artist</option>
+                {artists.map((artist: any) => (
+                  <option key={artist.id} value={artist.id}>
+                    {artist.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
               <label htmlFor="organizerProfileId" className="font-medium">
                 Organizer ID
               </label>
@@ -373,7 +408,7 @@ export default function CreateEventPage() {
                 required
                 min="1"
               />
-            </div>
+            </div> */}
 
             <div className="flex justify-end mt-8">
               <button
