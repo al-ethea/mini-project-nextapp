@@ -27,7 +27,7 @@ export default function DashboardPage() {
             <Image
               src="/what.jpg"
               alt="Whats happening"
-              className="object-cover w-full"
+              className="object-cover w-full h-40 sm:h-60"
               width={1450}
               height={800}
             />
@@ -43,8 +43,8 @@ export default function DashboardPage() {
       </section>
 
       <section className="min-h-screen bg-black text-white sm:px-10 py-10 space-y-14">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left mb-6">
+        <div className="-mt-25 sm:-mt-15">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left sm:pl-10 mb-6">
             UPCOMING SHOWS
           </h1>
           <EventCardList />
@@ -72,7 +72,7 @@ export default function DashboardPage() {
           <EventRating />
         </div> */}
 
-        <div className="flex flex-col items-center justify-center px-0">
+        <div className="flex flex-col items-center justify-center sm:-mx-10 sm:-mb-10">
           <CallToSignUp />
         </div>
       </section>

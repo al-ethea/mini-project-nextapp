@@ -72,7 +72,7 @@ export default function Carousel() {
     >
       {infiniteEvents.map((event, index) => (
         <div
-          className="carousel-item w-[240px] sm:w-[400px] md:w-[300px] lg:w-[350px] xl:w-[1300px] relative inline-block"
+          className="carousel-item w-[300px] sm:w-[1200px] md:w-[1350px] relative inline-block"
           key={`${event.id}-${index}`}
         >
           <Image

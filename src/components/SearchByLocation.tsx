@@ -12,7 +12,7 @@ export default function SearchByLocation({
 }: SearchByLocationProps) {
   return (
     <div>
-      <form className="max-w-md mx-auto w-100 h-10">
+      <form className="max-w-md pl-3 sm:pl-0 sm:mx-auto w-100 h-10">
         <label
           htmlFor="default-search"
           className="mb-2 text-sm font-medium text-gray-900 sr-only"

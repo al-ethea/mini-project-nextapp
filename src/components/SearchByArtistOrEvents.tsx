@@ -21,7 +21,7 @@ const dummyEvents: EventType[] = [
     title: 'Coldplay: Music Of The Spheres World Tour – delivered by DHL',
     artist: 'Coldplay',
     location: 'Seoul | 고양종합운동장',
-    image: '/events/coldplay.jpg',
+    image: '/coldplay.jpg',
     date: '2025-04-25',
   },
   {
@@ -29,7 +29,7 @@ const dummyEvents: EventType[] = [
     title: 'The Click 2025 Tour in Singapore',
     artist: 'The Click Five',
     location: 'Singapore | Capitol Theatre - Singapore',
-    image: '/events/clickfive.jpg',
+    image: '/click.jpg',
     date: '2025-05-06',
   },
   {
@@ -37,7 +37,7 @@ const dummyEvents: EventType[] = [
     title: "j-hope Tour 'HOPE ON THE STAGE' in BANGKOK",
     artist: 'j-hope',
     location: 'Bangkok | Impact Arena, Muang Thong Thani',
-    image: '/events/jhope1.jpg',
+    image: '/jhope.jpg',
     date: '2025-05-10',
     soldOut: true,
   },
@@ -46,7 +46,7 @@ const dummyEvents: EventType[] = [
     title: 'SB19: Simula at Wakas World Tour Kickoff',
     artist: 'SB19',
     location: 'Bulacan | Philippine Arena',
-    image: '/events/sb19.jpg',
+    image: '/sb19.jpg',
     date: '2025-06-01',
   },
 ]

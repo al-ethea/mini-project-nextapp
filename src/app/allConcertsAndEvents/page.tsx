@@ -41,13 +41,11 @@ export default function EventPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Get URL parameters
   const fromParam = searchParams.get("from");
   const toParam = searchParams.get("to");
   const cityParam = searchParams.get("city");
   const genreParam = searchParams.get("genre");
 
-  // Initialize filters from URL params
   useEffect(() => {
     if (fromParam && toParam) {
       setDateRange({
@@ -68,17 +66,14 @@ export default function EventPage() {
     try {
       let url = `/events/all-events?page=${currentPage}&limit=8`;
 
-      // Add date range filter
       if (fromParam && toParam) {
         url += `&from=${fromParam}&to=${toParam}`;
       }
 
-      // Add city filter
       if (cityParam) {
         url += `&city=${encodeURIComponent(cityParam)}`;
       }
 
-      // Add genre filter
       if (genreParam) {
         url += `&category=${encodeURIComponent(genreParam)}`;
       }
@@ -104,7 +99,6 @@ export default function EventPage() {
     handleEventLists();
   }, [currentPage, fromParam, toParam, cityParam, genreParam]);
 
-  // Apply temporary date range filter
   const applyDateFilter = () => {
     if (tempDateRange?.from && tempDateRange?.to) {
       const params = new URLSearchParams(searchParams.toString());
@@ -114,7 +108,6 @@ export default function EventPage() {
     }
   };
 
-  // Clear date filter
   const clearDateFilter = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("from");
@@ -122,7 +115,6 @@ export default function EventPage() {
     window.location.href = `/allConcertsAndEvents?${params.toString()}`;
   };
 
-  //handle search bar
   const queryParams = useSearchParams();
   const keyword = queryParams.get("search")?.toLowerCase() || "";
 
@@ -131,7 +123,7 @@ export default function EventPage() {
       item.name.toLowerCase().includes(keyword) ||
       item.venue.toLowerCase().includes(keyword)
   );
-  // Filter events client-side for additional UI filters
+
   const filteredEvents = events
     .filter((event) => {
       if (dateRange?.from && dateRange?.to) {
@@ -153,12 +145,12 @@ export default function EventPage() {
   const allCities = Array.from(new Set(events.map((event) => event.city)));
 
   return (
-    <div className="min-h-screen bg-gray-100 text-black px-45 pt-4 pb-8">
+    <div className="min-h-screen bg-gray-100 text-black px-4 sm:px-12 pt-4 pb-8">
       {/* Filters Section */}
       <div className="bg-white p-6 shadow-md">
         <h1 className="text-2xl font-bold mb-4">Event Calendar</h1>
 
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           {/* Date Range Picker */}
           <div>
             <button
@@ -204,7 +196,7 @@ export default function EventPage() {
           {/* City Filter */}
           <div className="relative">
             <select
-              className="border px-4 py-2 rounded bg-white"
+              className="border px-4 py-2 rounded bg-white w-full sm:w-auto"
               value={selectedCity || ""}
               onChange={(e) => {
                 const params = new URLSearchParams(searchParams.toString());
@@ -228,7 +220,7 @@ export default function EventPage() {
           {/* Genre Filter */}
           <div className="relative">
             <select
-              className="border px-4 py-2 rounded bg-white"
+              className="border px-4 py-2 rounded bg-white w-full sm:w-auto"
               value={selectedGenre || ""}
               onChange={(e) => {
                 const params = new URLSearchParams(searchParams.toString());
@@ -280,10 +272,10 @@ export default function EventPage() {
               {(keyword ? searchedEvents : filteredEvents).map((event) => (
                 <div
                   key={event.id}
-                  className="bg-white shadow-md flex overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-white shadow-md flex flex-col sm:flex-row overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   {/* Date Column */}
-                  <div className="bg-white p-4 flex flex-col items-center justify-center w-24 border-r">
+                  <div className="bg-white p-4 flex flex-col items-center justify-center w-full sm:w-24 border-b sm:border-b-0 sm:border-r">
                     <p className="text-lg font-bold">
                       {new Date(event.date).getDate()}
                     </p>
@@ -298,7 +290,7 @@ export default function EventPage() {
                   </div>
 
                   {/* Image Column */}
-                  <div className="w-32 h-32 flex-shrink-0">
+                  <div className="w-full sm:w-32 h-48 sm:h-32 flex-shrink-0">
                     <Image
                       src={event.bannerUrl}
                       alt={event.name}
@@ -310,7 +302,7 @@ export default function EventPage() {
                   </div>
 
                   {/* Content Column */}
-                  <div className="flex-1 p-4 flex flex-col justify-between">
+                  <div className="flex-1 p-4 flex flex-col justify-between text-left">
                     <div>
                       <h2 className="font-bold text-lg">{event.name}</h2>
                       <p className="text-gray-600 mt-1">{event.description}</p>
@@ -335,7 +327,7 @@ export default function EventPage() {
                   </div>
 
                   {/* Action Column */}
-                  <div className="p-4 flex items-center border-l">
+                  <div className="p-4 flex justify-center sm:items-center border-t sm:border-t-0 sm:border-l">
                     {event.availableSeats > 0 ? (
                       <Link href={`/events/${event.id}`}>
                         <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded transition-colors">
@@ -356,8 +348,8 @@ export default function EventPage() {
             </div>
 
             {/* Pagination */}
-            {totalPages > 1 && !keyword && (
-              <div className="flex justify-center mt-10 gap-2">
+            {!isLoading && totalPages > 1 && (
+              <div className="flex flex-wrap justify-center mt-10 gap-2">
                 <button
                   className={`px-4 py-2 rounded ${
                     currentPage === 1
