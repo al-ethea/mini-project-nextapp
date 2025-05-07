@@ -1,4 +1,4 @@
-import authStore from '@/zustand/store';
+import authStore from "@/zustand/store";
 
 export default function useDisplayDashboard() {
   const email = authStore((state: any) => state.email);

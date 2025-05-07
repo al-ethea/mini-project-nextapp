@@ -1,22 +1,3 @@
-// import type { NextConfig } from "next";
-
-// const nextConfig: NextConfig = {
-// };
-
-// module.exports = {
-//   // ...
-//   images: {
-//     remotePatterns: [
-//       {
-//         protocol: 'https',
-//         hostname: 'img.youtube.com',
-//       },
-//     ],
-//   },
-// }
-
-// export default nextConfig;
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -40,6 +21,18 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "img.youtube.com",
+      },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org", // ✅ Added this line
+      },
+      {
+        protocol: "https",
+        hostname: "www.statesman.com",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com", // ✅ Added Cloudinary
       },
     ],
     // Additional options (if needed):

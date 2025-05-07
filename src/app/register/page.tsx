@@ -48,7 +48,7 @@ export default function registerPage() {
       );
       toast.success(response.data.message);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Login failed");
+      toast.error(error.response?.data?.message || "Register failed");
     }
   };
   return (

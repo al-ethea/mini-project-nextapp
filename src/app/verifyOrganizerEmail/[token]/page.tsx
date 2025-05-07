@@ -6,6 +6,7 @@ import instance from "@/utils/axiosInstance";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import authStore from "@/zustand/store";
 
 export default function verifyEmailPage({
   params,
@@ -14,6 +15,7 @@ export default function verifyEmailPage({
 }) {
   const { token } = params;
   const router = useRouter();
+  const setAuth = authStore((state: any) => state.setAuth);
 
   const handleVerifyEmail = async () => {
     try {
@@ -26,13 +28,10 @@ export default function verifyEmailPage({
           },
         }
       );
-      const newToken = response.data.token; // coba ini dulu
-
-      localStorage.setItem("token", newToken); // or use cookies if preferred
-
+      setAuth({ _token: null, _email: null, _role: null });
       toast.success(response.data.message);
 
-      router.push("/dashboard"); // Redirect to the desired page after successful verification
+      router.push("/login"); // Redirect to the desired page after successful verification
     } catch (error: any) {
       toast.error(error.response?.data?.message);
     }
