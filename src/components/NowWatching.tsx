@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-
 import { useState } from 'react';
 
 const videoList = [
@@ -35,9 +34,9 @@ export default function NowWatching() {
   const [selectedVideo, setSelectedVideo] = useState(videoList[0]);
 
   return (
-    <div className="flex flex-col md:flex-row gap-6">
+    <div className="flex flex-col md:flex-row gap-6 px-4">
       {/* Main Video */}
-      <div className="flex-1">
+      <div className="w-full md:flex-1">
         <div className="aspect-video w-full rounded overflow-hidden max-h-[500px]">
           <iframe
             width="100%"
@@ -50,8 +49,9 @@ export default function NowWatching() {
           ></iframe>
         </div>
       </div>
+
       {/* Video List */}
-      <div className="w-full md:w-80 space-y-3 overflow-y-auto max-h-[500px]">
+      <div className="w-full md:w-80 space-y-3 overflow-x-auto md:overflow-y-auto max-h-[500px]">
         {videoList.map((video) => (
           <div
             key={video.id}
@@ -67,9 +67,12 @@ export default function NowWatching() {
               alt={video.title}
               width={96}
               height={70}
-              className="rounded object-cover"
+              className="rounded object-cover flex-shrink-0"
+              priority
             />
-            <p className="text-sm font-semibold">{video.title}</p>
+            <p className="text-sm font-semibold text-white line-clamp-2">
+              {video.title}
+            </p>
           </div>
         ))}
       </div>

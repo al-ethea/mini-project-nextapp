@@ -42,6 +42,14 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'img.youtube.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com', // ✅ ditambahkan di sini
+      }
     ],
     // Opsi tambahan (jika diperlukan):
     minimumCacheTTL: 60, // Cache selama 60 detik

@@ -1,5 +1,5 @@
-'use client';
-import useDisplayDashboard from '../features/dashboard/hooks/useDisplayDashboard';
+"use client";
+import useDisplayDashboard from "../features/dashboard/hooks/useDisplayDashboard";
 import Image from "next/image";
 import EventCardList from "@/components/EventCard";
 import NowWatching from "@/components/NowWatching";
@@ -7,8 +7,8 @@ import LastCallForTickets from "@/components/LastCall";
 import CallToSignUp from "@/components/CallToSignUp";
 import EventRating from "@/components/EventRating";
 import SearchByArtistOrEvent from "@/components/SearchByArtistOrEvents";
-import Carousel from '@/components/Carousel';
-import EventSearchForm from '@/components/HandleSubmitFilter';
+import Carousel from "@/components/Carousel";
+import EventSearchForm from "@/components/HandleSubmitFilter";
 
 export default function DashboardPage() {
   const { email, role, token } = useDisplayDashboard();
@@ -42,7 +42,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section className="min-h-screen bg-black text-white px-0 py-10 space-y-14">
+      <section className="min-h-screen bg-black text-white sm:px-10 py-10 space-y-14">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left mb-6">
             UPCOMING SHOWS
@@ -51,14 +51,14 @@ export default function DashboardPage() {
         </div>
 
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left pb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left sm:px-10 pb-6">
             WHAT WE'RE WATCHING?
           </h1>
           <NowWatching />
         </div>
 
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left pb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left sm:px-10 pb-6">
             Last Call For Tickets
           </h1>
           <LastCallForTickets />
@@ -67,10 +67,10 @@ export default function DashboardPage() {
         <div className="flex flex-col items-center justify-center">
           <SearchByArtistOrEvent />
         </div>
-
+        {/* 
         <div className="flex flex-col items-center justify-center">
           <EventRating />
-        </div>
+        </div> */}
 
         <div className="flex flex-col items-center justify-center px-0">
           <CallToSignUp />
