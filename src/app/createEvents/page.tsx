@@ -77,10 +77,14 @@ export default function CreateEventPage() {
     }
   };
 
-  const handleBannerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBannerChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setFieldValue: (field: string, value: any) => void
+  ) => {
     const file = event.target.files ? event.target.files[0] : null;
     if (file) {
       setBannerFile(file);
+      setFieldValue("bannerUrl", file); // Formik knows file exists now
     }
   };
 
@@ -92,7 +96,6 @@ export default function CreateEventPage() {
           <Formik
             initialValues={{
               name: "",
-              bannerUrl: null,
               city: "",
               venue: "",
               category: "",
@@ -108,16 +111,10 @@ export default function CreateEventPage() {
           >
             {({ isSubmitting, setFieldValue }) => (
               <Form className="space-y-6">
-                {/* Event Name */}
                 <FieldGroup label="Event Name" name="name" />
-
-                {/* City */}
                 <FieldGroup label="City" name="city" />
-
-                {/* Venue */}
                 <FieldGroup label="Venue" name="venue" />
 
-                {/* Category */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                   <label htmlFor="category" className="font-medium">
                     Category
@@ -134,20 +131,14 @@ export default function CreateEventPage() {
                   />
                 </div>
 
-                {/* Price */}
                 <FieldGroup label="Price" name="price" type="number" />
-
-                {/* Description */}
                 <FieldGroup label="Description" name="description" isTextArea />
-
-                {/* Available Seats */}
                 <FieldGroup
                   label="Available Seats"
                   name="availableSeats"
                   type="number"
                 />
 
-                {/* Event Type */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                   <label htmlFor="type" className="font-medium">
                     Event Type
@@ -169,7 +160,6 @@ export default function CreateEventPage() {
                   </div>
                 </div>
 
-                {/* Date Selection */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
                   <label htmlFor="date" className="font-medium mt-2">
                     Event Dates
@@ -224,7 +214,6 @@ export default function CreateEventPage() {
                   </div>
                 </div>
 
-                {/* Banner File Upload */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                   <label htmlFor="bannerUrl" className="font-medium">
                     Event Banner
@@ -236,7 +225,7 @@ export default function CreateEventPage() {
                       name="bannerUrl"
                       accept="image/*"
                       className="file-input file-input-bordered w-full"
-                      onChange={handleBannerChange}
+                      onChange={(e) => handleBannerChange(e, setFieldValue)}
                     />
                     {bannerFile && (
                       <p className="mt-2 text-sm text-gray-500">
@@ -251,7 +240,6 @@ export default function CreateEventPage() {
                   </div>
                 </div>
 
-                {/* Artist */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                   <label htmlFor="artistId" className="font-medium">
                     Artist
@@ -277,7 +265,6 @@ export default function CreateEventPage() {
                   </div>
                 </div>
 
-                {/* Submit */}
                 <div className="flex justify-end mt-8">
                   <button
                     type="submit"
