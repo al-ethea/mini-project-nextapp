@@ -26,7 +26,6 @@ export default function Header() {
   };
 
   const [searchTerm, setSearchTerm] = useState("");
-
   return (
     <header className="w-full">
       {/* Top Header */}
@@ -155,6 +154,7 @@ export default function Header() {
       {/* Sticky Navigation Bar */}
       <div className="sticky top-0 z-20 bg-red-700 px-4 sm:px-6 py-3 overflow-x-auto whitespace-nowrap scrollbar-hide">
         <nav className="flex space-x-6 text-sm sm:text-base font-semibold text-white">
+
           <Link
             href="/allConcertsAndEvents"
             className="flex items-center gap-1 hover:underline"
@@ -162,16 +162,22 @@ export default function Header() {
             All Concerts & Events
             <ExternalLink className="w-3 h-3 inline" />
           </Link>
-          <Link href="/myOrderedEvents" className="hover:underline">
-            My Ordered Events
-          </Link>
-          <Link href="#" className="hover:underline">
-            VIP Experiences
-          </Link>
-          <Link href="#" className="flex items-center gap-1 hover:underline">
-            First To Know
-            <ExternalLink className="w-3 h-3 inline" />
-          </Link>
+          {token && (
+            <>
+              <Link href="/myOrderedEvents" className="hover:underline">
+                My Events
+              </Link>
+              <Link href="/uploadReceipt" className="hover:underline">
+                Upload Receipt
+              </Link>
+              <Link href="/pointsHistory" className="hover:underline">
+                Points
+              </Link>
+              <Link href="/referral" className="hover:underline">
+                Referral
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </header>
