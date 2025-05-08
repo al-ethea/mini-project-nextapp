@@ -1,3 +1,5 @@
+// next.config.js
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -24,7 +26,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "upload.wikimedia.org", // ✅ Added this line
+        hostname: "upload.wikimedia.org",
       },
       {
         protocol: "https",
@@ -32,17 +34,16 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "res.cloudinary.com", // ✅ Added Cloudinary
+        hostname: "res.cloudinary.com",
       },
     ],
-    // Additional options (if needed):
-    minimumCacheTTL: 60, // Cache for 60 seconds
-    formats: ["image/webp"], // Automatically convert to webp
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920], // Responsive breakpoints
+    minimumCacheTTL: 60,
+    formats: ["image/webp"],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
   },
 
   reactStrictMode: true,
-  // swcMinify: true,
+  // swcMinify: true, // Uncomment if needed
 };
 
 module.exports = nextConfig;

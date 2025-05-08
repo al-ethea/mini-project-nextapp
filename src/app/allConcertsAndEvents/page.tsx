@@ -41,18 +41,16 @@ export default function EventPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Get URL parameters
-  const fromParam = searchParams.get('from');
-  const toParam = searchParams.get('to');
-  const cityParam = searchParams.get('city');
-  const genreParam = searchParams.get('genre');
+  const fromParam = searchParams.get("from");
+  const toParam = searchParams.get("to");
+  const cityParam = searchParams.get("city");
+  const genreParam = searchParams.get("genre");
 
-  // Initialize filters from URL params
   useEffect(() => {
     if (fromParam && toParam) {
       setDateRange({
         from: new Date(fromParam),
-        to: new Date(toParam)
+        to: new Date(toParam),
       });
     }
     if (cityParam) {
@@ -67,18 +65,15 @@ export default function EventPage() {
     setIsLoading(true);
     try {
       let url = `/events/all-events?page=${currentPage}&limit=8`;
-      
-      // Add date range filter
+
       if (fromParam && toParam) {
         url += `&from=${fromParam}&to=${toParam}`;
       }
-      
-      // Add city filter
+
       if (cityParam) {
         url += `&city=${encodeURIComponent(cityParam)}`;
       }
-      
-      // Add genre filter
+
       if (genreParam) {
         url += `&category=${encodeURIComponent(genreParam)}`;
       }
@@ -104,25 +99,31 @@ export default function EventPage() {
     handleEventLists();
   }, [currentPage, fromParam, toParam, cityParam, genreParam]);
 
-  // Apply temporary date range filter
   const applyDateFilter = () => {
     if (tempDateRange?.from && tempDateRange?.to) {
       const params = new URLSearchParams(searchParams.toString());
-      params.set('from', tempDateRange.from.toISOString());
-      params.set('to', tempDateRange.to.toISOString());
+      params.set("from", tempDateRange.from.toISOString());
+      params.set("to", tempDateRange.to.toISOString());
       window.location.href = `/allConcertsAndEvents?${params.toString()}`;
     }
   };
 
-  // Clear date filter
   const clearDateFilter = () => {
     const params = new URLSearchParams(searchParams.toString());
-    params.delete('from');
-    params.delete('to');
+    params.delete("from");
+    params.delete("to");
     window.location.href = `/allConcertsAndEvents?${params.toString()}`;
   };
 
-  // Filter events client-side for additional UI filters
+  const queryParams = useSearchParams();
+  const keyword = queryParams.get("search")?.toLowerCase() || "";
+
+  const searchedEvents = events.filter(
+    (item) =>
+      item.name.toLowerCase().includes(keyword) ||
+      item.venue.toLowerCase().includes(keyword)
+  );
+
   const filteredEvents = events
     .filter((event) => {
       if (dateRange?.from && dateRange?.to) {
@@ -144,12 +145,12 @@ export default function EventPage() {
   const allCities = Array.from(new Set(events.map((event) => event.city)));
 
   return (
-    <div className="min-h-screen bg-gray-100 text-black px-45 pt-4 pb-8">
+    <div className="min-h-screen bg-gray-100 text-black px-4 sm:px-12 pt-4 pb-8">
       {/* Filters Section */}
       <div className="bg-white p-6 shadow-md">
         <h1 className="text-2xl font-bold mb-4">Event Calendar</h1>
-        
-        <div className="flex gap-4">
+
+        <div className="flex flex-col sm:flex-row gap-4">
           {/* Date Range Picker */}
           <div>
             <button
@@ -195,14 +196,14 @@ export default function EventPage() {
           {/* City Filter */}
           <div className="relative">
             <select
-              className="border px-4 py-2 rounded bg-white"
+              className="border px-4 py-2 rounded bg-white w-full sm:w-auto"
               value={selectedCity || ""}
               onChange={(e) => {
                 const params = new URLSearchParams(searchParams.toString());
                 if (e.target.value) {
-                  params.set('city', e.target.value);
+                  params.set("city", e.target.value);
                 } else {
-                  params.delete('city');
+                  params.delete("city");
                 }
                 window.location.href = `/allConcertsAndEvents?${params.toString()}`;
               }}
@@ -219,14 +220,14 @@ export default function EventPage() {
           {/* Genre Filter */}
           <div className="relative">
             <select
-              className="border px-4 py-2 rounded bg-white"
+              className="border px-4 py-2 rounded bg-white w-full sm:w-auto"
               value={selectedGenre || ""}
               onChange={(e) => {
                 const params = new URLSearchParams(searchParams.toString());
                 if (e.target.value) {
-                  params.set('genre', e.target.value);
+                  params.set("genre", e.target.value);
                 } else {
-                  params.delete('genre');
+                  params.delete("genre");
                 }
                 window.location.href = `/allConcertsAndEvents?${params.toString()}`;
               }}
@@ -258,17 +259,23 @@ export default function EventPage() {
                   {message}
                 </p>
               )}
-              {filteredEvents.length} {filteredEvents.length === 1 ? 'Event' : 'Events'} Found
+              {keyword
+                ? `${searchedEvents.length} result${
+                    searchedEvents.length === 1 ? "" : "s"
+                  } found for "${keyword}"`
+                : `${filteredEvents.length} Event${
+                    filteredEvents.length === 1 ? "" : "s"
+                  } Found`}
             </div>
 
             <div className="flex flex-col gap-4">
-              {filteredEvents.map((event) => (
+              {(keyword ? searchedEvents : filteredEvents).map((event) => (
                 <div
                   key={event.id}
-                  className="bg-white shadow-md flex overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-white shadow-md flex flex-col sm:flex-row overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   {/* Date Column */}
-                  <div className="bg-white p-4 flex flex-col items-center justify-center w-24 border-r">
+                  <div className="bg-white p-4 flex flex-col items-center justify-center w-full sm:w-24 border-b sm:border-b-0 sm:border-r">
                     <p className="text-lg font-bold">
                       {new Date(event.date).getDate()}
                     </p>
@@ -277,11 +284,13 @@ export default function EventPage() {
                         month: "short",
                       })}
                     </p>
-                    <p className="text-xs">{new Date(event.date).getFullYear()}</p>
+                    <p className="text-xs">
+                      {new Date(event.date).getFullYear()}
+                    </p>
                   </div>
 
                   {/* Image Column */}
-                  <div className="w-32 h-32 flex-shrink-0">
+                  <div className="w-full sm:w-32 h-48 sm:h-32 flex-shrink-0">
                     <Image
                       src={event.bannerUrl}
                       alt={event.name}
@@ -293,29 +302,32 @@ export default function EventPage() {
                   </div>
 
                   {/* Content Column */}
-                  <div className="flex-1 p-4 flex flex-col justify-between">
+                  <div className="flex-1 p-4 flex flex-col justify-between text-left">
                     <div>
                       <h2 className="font-bold text-lg">{event.name}</h2>
                       <p className="text-gray-600 mt-1">{event.description}</p>
                       <p className="text-sm text-gray-500 mt-2">
-                        <span className="font-medium">{event.venue}</span>, {event.city}
+                        <span className="font-medium">{event.venue}</span>,{" "}
+                        {event.city}
                       </p>
                     </div>
                     <div className="mt-2">
-                      <span className={`px-2 py-1 text-xs rounded ${
-                        event.availableSeats > 0 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {event.availableSeats > 0 
-                          ? `${event.availableSeats} seats available` 
-                          : 'Sold out'}
+                      <span
+                        className={`px-2 py-1 text-xs rounded ${
+                          event.availableSeats > 0
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {event.availableSeats > 0
+                          ? `${event.availableSeats} seats available`
+                          : "Sold out"}
                       </span>
                     </div>
                   </div>
 
                   {/* Action Column */}
-                  <div className="p-4 flex items-center border-l">
+                  <div className="p-4 flex justify-center sm:items-center border-t sm:border-t-0 sm:border-l">
                     {event.availableSeats > 0 ? (
                       <Link href={`/events/${event.id}`}>
                         <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded transition-colors">
@@ -336,10 +348,14 @@ export default function EventPage() {
             </div>
 
             {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex justify-center mt-10 gap-2">
+            {!isLoading && totalPages > 1 && (
+              <div className="flex flex-wrap justify-center mt-10 gap-2">
                 <button
-                  className={`px-4 py-2 rounded ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-red-600 hover:bg-red-50'}`}
+                  className={`px-4 py-2 rounded ${
+                    currentPage === 1
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "text-red-600 hover:bg-red-50"
+                  }`}
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(1)}
                 >
@@ -347,7 +363,11 @@ export default function EventPage() {
                 </button>
 
                 <button
-                  className={`px-4 py-2 rounded ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-red-600 hover:bg-red-50'}`}
+                  className={`px-4 py-2 rounded ${
+                    currentPage === 1
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "text-red-600 hover:bg-red-50"
+                  }`}
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 >
@@ -365,14 +385,14 @@ export default function EventPage() {
                   } else {
                     pageNum = currentPage - 2 + i;
                   }
-                  
+
                   return (
                     <button
                       key={pageNum}
                       className={`w-10 h-10 rounded-full ${
-                        currentPage === pageNum 
-                          ? 'bg-red-600 text-white' 
-                          : 'bg-white text-red-600 hover:bg-red-50'
+                        currentPage === pageNum
+                          ? "bg-red-600 text-white"
+                          : "bg-white text-red-600 hover:bg-red-50"
                       }`}
                       onClick={() => setCurrentPage(pageNum)}
                     >
@@ -382,15 +402,25 @@ export default function EventPage() {
                 })}
 
                 <button
-                  className={`px-4 py-2 rounded ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-red-600 hover:bg-red-50'}`}
+                  className={`px-4 py-2 rounded ${
+                    currentPage === totalPages
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "text-red-600 hover:bg-red-50"
+                  }`}
                   disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                  onClick={() =>
+                    setCurrentPage(Math.min(totalPages, currentPage + 1))
+                  }
                 >
                   Next
                 </button>
 
                 <button
-                  className={`px-4 py-2 rounded ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-red-600 hover:bg-red-50'}`}
+                  className={`px-4 py-2 rounded ${
+                    currentPage === totalPages
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "text-red-600 hover:bg-red-50"
+                  }`}
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage(totalPages)}
                 >

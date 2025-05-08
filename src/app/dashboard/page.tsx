@@ -27,7 +27,7 @@ export default function DashboardPage() {
             <Image
               src="/what.jpg"
               alt="Whats happening"
-              className="object-cover w-full"
+              className="object-cover w-full h-40 sm:h-60"
               width={1450}
               height={800}
             />
@@ -42,23 +42,23 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section className="min-h-screen bg-black text-white px-0 py-10 space-y-14">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left mb-6">
+      <section className="min-h-screen bg-black text-white sm:px-10 py-10 space-y-14">
+        <div className="-mt-25 sm:-mt-15">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left sm:pl-10 mb-6">
             UPCOMING SHOWS
           </h1>
           <EventCardList />
         </div>
 
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left pb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left sm:px-10 pb-6">
             WHAT WE'RE WATCHING?
           </h1>
           <NowWatching />
         </div>
 
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left pb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center sm:text-left sm:px-10 pb-6">
             Last Call For Tickets
           </h1>
           <LastCallForTickets />
@@ -67,12 +67,12 @@ export default function DashboardPage() {
         <div className="flex flex-col items-center justify-center">
           <SearchByArtistOrEvent />
         </div>
-
+        {/* 
         <div className="flex flex-col items-center justify-center">
           <EventRating />
-        </div>
+        </div> */}
 
-        <div className="flex flex-col items-center justify-center px-0">
+        <div className="flex flex-col items-center justify-center sm:-mx-10 sm:-mb-10">
           <CallToSignUp />
         </div>
       </section>

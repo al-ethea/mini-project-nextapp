@@ -25,10 +25,11 @@ export default function Header() {
     router.push("/");
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
   return (
     <header className="w-full">
-      {/* Top Header - Logo & Search */}
-      <div className="flex flex-wrap items-center justify-between px-4 sm:px-6 py-4 bg-black text-white relative z-30 whitespace-nowrap">
+      {/* Top Header */}
+      <div className="flex items-center justify-between flex-wrap px-4 sm:px-6 py-4 bg-black text-white relative z-30">
         {/* Logo */}
         <Link
           href="/"
@@ -37,25 +38,36 @@ export default function Header() {
           LIVE NATION
         </Link>
 
-        {/* Search Mode */}
+        {/* Search Bar (Expanded) */}
         {showSearch ? (
-          <div className="absolute left-0 right-0 top-0 bottom-0 flex items-center justify-center bg-black px-4 sm:px-6 z-0">
+          <div className="absolute inset-0 flex items-center justify-center bg-black px-4 sm:px-6 z-20">
             <div className="w-full max-w-3xl flex items-center border border-white rounded-full px-4 py-2">
               <input
                 type="text"
-                placeholder="Search by Artist, Venue or Event"
+                placeholder="Search by Artist and Event name"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="bg-black text-white outline-none flex-grow px-2 text-sm sm:text-base"
               />
               <button
-                onClick={() => setShowSearch(false)}
+                onClick={() => {
+                  setShowSearch(false);
+                  if (searchTerm.trim()) {
+                    router.push(
+                      `/allConcertsAndEvents?search=${encodeURIComponent(
+                        searchTerm.trim()
+                      )}`
+                    );
+                  }
+                }}
                 className="text-white"
               >
-                <X className="w-5 h-5" />
+                <Search className="w-5 h-5" />
               </button>
             </div>
           </div>
         ) : (
-          <div className="flex items-center space-x-3 sm:space-x-4 z-10 mt-2 sm:mt-0">
+          <div className="flex items-center space-x-3 sm:space-x-4 z-10 mt-3 sm:mt-0">
             <div className="w-px h-5 sm:h-6 bg-white/60" />
             <button
               onClick={() => setShowSearch(true)}
@@ -65,14 +77,15 @@ export default function Header() {
             </button>
             <div className="w-px h-6 bg-white/60" />
 
+            {/* User Auth Dropdown */}
             {token ? (
               <div className="relative">
                 <button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="text-white hover:text-gray-300 text-md font-semibold flex items-center gap-1"
+                  className="text-white hover:text-gray-300 text-md font-semibold flex items-center gap-1 max-w-[160px] truncate"
                 >
                   <User className="w-6 h-6" />
-                  {email ?? "Account"}
+                  <span className="hidden sm:inline">{email ?? "Account"}</span>
                 </button>
                 {showDropdown && (
                   <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-md py-2 z-50">
@@ -128,7 +141,7 @@ export default function Header() {
                 className="text-white hover:text-gray-300 text-md font-semibold flex items-center gap-1"
               >
                 <User className="w-6 h-6" />
-                Login/Register
+                <span className="hidden sm:inline">Login/Register</span>
               </Link>
             )}
           </div>
@@ -139,8 +152,9 @@ export default function Header() {
       {/* <div className="sticky top-0 z-20 bg-red-700 px-6 py-4">  */}
 
       {/* Sticky Navigation Bar */}
-      <div className="sticky top-0 z-20 bg-red-700 px-6 py-4 sm:px-6 sm:py-4 overflow-x-auto sm:space-x-6 text-sm sm:text-md font-semibold text-white">
-        <nav className="flex space-x-6 text-md font-semibold text-white">
+      <div className="sticky top-0 z-20 bg-red-700 px-4 sm:px-6 py-3 overflow-x-auto whitespace-nowrap scrollbar-hide">
+        <nav className="flex space-x-6 text-sm sm:text-base font-semibold text-white">
+
           <Link
             href="/allConcertsAndEvents"
             className="flex items-center gap-1 hover:underline"
@@ -148,7 +162,6 @@ export default function Header() {
             All Concerts & Events
             <ExternalLink className="w-3 h-3 inline" />
           </Link>
-
           {token && (
             <>
               <Link href="/myOrderedEvents" className="hover:underline">

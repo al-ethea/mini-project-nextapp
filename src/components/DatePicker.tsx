@@ -22,7 +22,7 @@ export default function DatePicker({ date, onSelect }: DatePickerProps) {
     <div>
       <button
         popoverTarget="rdp-popover"
-        className="input bg-white text-gray-400 w-full h-13 rounded-lg px-4 py-2 text-left"
+        className="input bg-white text-gray-400 sm:w-full w-40 h-12 rounded-lg px-4 py-2 text-left pl-1 -ml-20 sm:ml-0"
       >
         {date?.from && date?.to
           ? `${date.from.toLocaleDateString()} - ${date.to.toLocaleDateString()}`
