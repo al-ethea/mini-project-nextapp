@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Search, X, User, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import authStore from "@/zustand/store";
-import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [showSearch, setShowSearch] = useState(false);
@@ -16,6 +15,7 @@ export default function Header() {
 
   const token = authStore((state: any) => state.token);
   const email = authStore((state: any) => state.email);
+  const role = authStore((state: any) => state.role);
   const setAuth = authStore((state: any) => state.setAuth);
 
   if (pathName === "/login" || pathName === "/register") return null;
@@ -50,7 +50,6 @@ export default function Header() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="bg-black text-white outline-none flex-grow px-2 text-sm sm:text-base"
               />
-
               <button
                 onClick={() => {
                   setShowSearch(false);
@@ -90,22 +89,44 @@ export default function Header() {
                   <span className="hidden sm:inline">{email ?? "Account"}</span>
                 </button>
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-md py-2 z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-md py-2 z-50">
                     <Link href="/profile">
                       <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                         Profile
                       </div>
                     </Link>
-                    <Link href="/referral">
-                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        Referral Code
-                      </div>
-                    </Link>
-                    <Link href="/pointsHistory">
-                      <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        Points
-                      </div>
-                    </Link>
+
+                    {role !== "ORGANIZER" ? (
+                      <Link href="/registerOrganizer">
+                        <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                          Become Organizer
+                        </div>
+                      </Link>
+                    ) : (
+                      <>
+                        <Link href="/createEvents">
+                          <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            Create Event
+                          </div>
+                        </Link>
+                        <Link href="/myCreatedEvents">
+                          <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            My Created Events
+                          </div>
+                        </Link>
+                        <Link href="/approveReceipts">
+                          <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            Approve Receipts
+                          </div>
+                        </Link>
+                        <Link href="/eventStats">
+                          <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            Event Stats
+                          </div>
+                        </Link>
+                      </>
+                    )}
+
                     <div
                       onClick={handleLogout}
                       className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -127,6 +148,9 @@ export default function Header() {
           </div>
         )}
       </div>
+
+      {/* Sticky Navigation Bar - Attendee Features */}
+      {/* <div className="sticky top-0 z-20 bg-red-700 px-6 py-4">  */}
 
       {/* Sticky Navigation Bar */}
       <div className="sticky top-0 z-20 bg-red-700 px-4 sm:px-6 py-3 overflow-x-auto whitespace-nowrap scrollbar-hide">

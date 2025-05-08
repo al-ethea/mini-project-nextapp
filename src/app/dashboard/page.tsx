@@ -11,7 +11,7 @@ import Carousel from "@/components/Carousel";
 import EventSearchForm from "@/components/HandleSubmitFilter";
 
 export default function DashboardPage() {
-  const { email, role, token } = useDisplayDashboard();
+  // const { email, role, token } = useDisplayDashboard();
 
   return (
     <main>

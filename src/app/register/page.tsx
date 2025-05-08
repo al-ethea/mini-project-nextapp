@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { registerValidationSchema } from "../features/register/schemas/registerValidationSchema";
 import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
-
 import Link from "next/link";
 
 interface IHandleRegisterUser {
@@ -49,7 +48,7 @@ export default function registerPage() {
       );
       toast.success(response.data.message);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Login failed");
+      toast.error(error.response?.data?.message || "Register failed");
     }
   };
   return (
