@@ -45,7 +45,7 @@ export default function Header() {
             <div className="w-full max-w-3xl flex items-center border border-white rounded-full px-4 py-2">
               <input
                 type="text"
-                placeholder="Search by Artist, Venue or Event"
+                placeholder="Search by Artist and Event name"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="bg-black text-white outline-none flex-grow px-2 text-sm sm:text-base"
